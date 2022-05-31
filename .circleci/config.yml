@@ -163,5 +163,5 @@ workflows:
           requires: [build-frontend]
   send-notification:
     jobs:
-      - notify:
+      - notify-over-slack:
           context: slack-secrets
