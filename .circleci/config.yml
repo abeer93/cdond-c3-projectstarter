@@ -125,28 +125,10 @@ jobs:
             cd backend
             npm install
             npm audit --audit-level=critical
-  
-  notify-over-slack:
-    docker:
-      - image: 'cimg/base:stable'
-    steps:
       - slack/notify:
-          custom: |
-            {
-              "blocks": [
-                {
-                  "type": "section",
-                  "fields": [
-                    {
-                      "type": "plain_text",
-                      "text": "*This is a text notification*",
-                      "emoji": true
-                    }
-                  ]
-                }
-              ]
-            }
-          event: always
+          channel: auto-deploy-udacity-project
+          event: fail
+          template: basic_fail_1
 
 workflows:
   default:
@@ -161,6 +143,3 @@ workflows:
           requires: [build-backend]
       - scan-frontend:
           requires: [build-frontend]
-  send-notification:
-    jobs:
-      - notify-over-slack
