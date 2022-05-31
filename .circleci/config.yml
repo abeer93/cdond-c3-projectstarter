@@ -126,8 +126,8 @@ jobs:
             npm install
             npm audit --audit-level=critical
       - slack/notify:
-          channel: auto-deploy-udacity-project
           event: fail
+          mentions: '@auto-deploy-udacity-project'
           template: basic_fail_1
 
 workflows:
