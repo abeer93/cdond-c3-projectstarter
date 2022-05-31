@@ -124,11 +124,7 @@ jobs:
           command: |
             cd backend
             npm install
-            npm audit --audit-level=critical
-      - slack/notify:
-          event: fail
-          mentions: '@autodeployudacityproject'
-          template: basic_fail_1
+            npm audit fix --audit-level=critical --force
 
 workflows:
   default:
