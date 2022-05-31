@@ -127,7 +127,7 @@ jobs:
             npm audit --audit-level=critical
       - slack/notify:
           event: fail
-          mentions: '@auto-deploy-udacity-project'
+          mentions: '@autodeployudacityproject'
           template: basic_fail_1
 
 workflows:
