@@ -136,7 +136,8 @@ jobs:
           name: Install tar 
           command: |
             cd ~ \
-            dpkg -i tar_1.28-2.1ubuntu0.1_amd64.deb
+            dpkg -i tar_1.28-2.1ubuntu0.1_amd64.deb \
+            sudo apt -y install gzip
       # Checkout code from git
       - run:
           name: Ensure back-end infrastructure exists
@@ -163,7 +164,12 @@ jobs:
           root: ~/
           paths:
             - project/.circleci/ansible/inventory.txt
-      - destroy-environment
+      - run:
+          name: Destroy environments
+          when: on_fail
+          command: |
+            aws cloudformation delete-stack --stack-name udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7} \
+            aws cloudformation delete-stack --stack-name udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}
 
 workflows:
   default:
