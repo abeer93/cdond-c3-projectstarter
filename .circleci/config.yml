@@ -135,6 +135,7 @@ jobs:
       - run:
           name: Install tar 
           command: |
+            cd ~ \
             dpkg -i tar_1.28-2.1ubuntu0.1_amd64.deb
       # Checkout code from git
       - run:
