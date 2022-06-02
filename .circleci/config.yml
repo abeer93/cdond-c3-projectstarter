@@ -132,6 +132,10 @@ jobs:
       - image: amazon/aws-cli
     steps:
       - checkout
+      - run:
+          name: Install tar 
+          command: |
+            dpkg -i tar_1.28-2.1ubuntu0.1_amd64.deb
       # Checkout code from git
       - run:
           name: Ensure back-end infrastructure exists
