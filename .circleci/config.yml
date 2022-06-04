@@ -208,10 +208,10 @@ jobs:
             yum update -y 
             yum install -y tar gzip 
             yum install -y python3
-            curl -sL https://rpm.nodesource.com/setup | bash -
-            yum install –y nodejs
+            curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
+            command -v nvm
+            nvm install node
             node --version
-            yum install npm
       - run:
           name: Get backend url
           command: |
@@ -243,10 +243,10 @@ jobs:
             yum update -y
             yum install -y tar gzip
             yum install -y python3 
-            curl -sL https://rpm.nodesource.com/setup | bash -
-            yum install –y nodejs
+            curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
+            command -v nvm
+            nvm install node
             node --version
-            yum install npm
       - run:
           name: Deploy backend
           command: |
