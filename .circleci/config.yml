@@ -153,7 +153,7 @@ jobs:
       - persist_to_workspace:
           root: ~/
           paths:
-            - ~/.circleci/ansible/inventory.txt
+            - project/.circleci/ansible/inventory.txt
       - destroy-environment
   
   configure-infrastructure:
@@ -205,9 +205,8 @@ jobs:
           command: |
             yum update -y \
             yum install -y tar gzip \
-            curl -sL https://rpm.nodesource.com/setup_10.x | bash - \
-            yum install nodejs \
-            yum install -y python3 
+            yum install -y python3  \
+            dnf module install nodejs
       - run:
           name: Get backend url
           command: |
@@ -236,15 +235,14 @@ jobs:
       - persist_to_workspace:
           root: ~/
           paths:
-            - ~/project/.circleci/ansible/inventory.txt
+            - project/.circleci/ansible/inventory.txt
       - run:
           name: Install dependencies
           command: |
             yum update -y \
             yum install -y tar gzip \
-            curl -sL https://rpm.nodesource.com/setup_10.x | bash - \
-            yum install nodejs \
-            yum install -y python3 
+            yum install -y python3  \
+            dnf module install nodejs
       - run:
           name: Deploy backend
           command: |
