@@ -130,7 +130,7 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Install tar 
+          name: Install tar and zip
           command: |
             yum install -y tar gzip
       - run:
@@ -170,20 +170,14 @@ jobs:
             - "eb:12:66:bd:73:9f:7e:74:80:dd:12:2c:72:2c:fe:52"
       - attach_workspace:
           at: ~/
-      # Checkout code from git
-      # Add ssh keys with fingerprint
-      # attach workspace
       - run:
           name: Install dependencies
           command: |
-            # Your code here
-            exit 1
+            apk add --update ansible
       - run:
           name: Configure server
           command: |
-            # Your code here
-            exit 1
-      # Here's where you will add some code to rollback on failure     
+            ansible-playbook -i inventory.txt configure-server.yml  
 
 workflows:
   default:
@@ -199,3 +193,5 @@ workflows:
       - scan-frontend:
           requires: [build-frontend]
       - deploy-infrastructure
+      - configure-infrastructure:
+          requires: [deploy-infrastructure]
