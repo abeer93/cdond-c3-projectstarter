@@ -208,7 +208,7 @@ jobs:
             yum update -y 
             yum install -y tar gzip 
             yum install -y python3
-            yum install epel-release
+            curl -sL https://rpm.nodesource.com/setup | bash -
             yum install –y nodejs
             node --version
             yum install npm
@@ -243,7 +243,7 @@ jobs:
             yum update -y
             yum install -y tar gzip
             yum install -y python3 
-            yum install epel-release
+            curl -sL https://rpm.nodesource.com/setup | bash -
             yum install –y nodejs
             node --version
             yum install npm
