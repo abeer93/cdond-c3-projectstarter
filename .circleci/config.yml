@@ -208,7 +208,7 @@ jobs:
             yum update -y 
             yum install -y tar gzip 
             yum install -y python3
-            yum -y install nodejs npm
+            curl -fsSL https://rpm.nodesource.com/setup_16.x | bash - && yum -y install nodejs
             node --version
       - run:
           name: Get backend url
@@ -241,7 +241,7 @@ jobs:
             yum update -y
             yum install -y tar gzip
             yum install -y python3 
-            yum -y install nodejs npm
+            curl -fsSL https://rpm.nodesource.com/setup_16.x | bash - && yum -y install nodejs
             node --version
       - run:
           name: Deploy backend
