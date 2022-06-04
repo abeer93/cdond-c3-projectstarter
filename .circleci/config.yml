@@ -177,7 +177,7 @@ jobs:
       - run:
           name: Configure server
           command: |
-            cd ./ansible \
+            cd ansible/ \
             ansible-playbook -i inventory.txt configure-server.yml  
 
 workflows:
