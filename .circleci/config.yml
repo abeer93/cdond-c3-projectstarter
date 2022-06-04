@@ -271,8 +271,7 @@ jobs:
       - run:
           name: Backend smoke test.
           command: |
-            const dotenv = require('dotenv').config()
-            export BACKEND_IP=$(process.env.BACKEND_IP)
+            export BACKEND_IP=process.env.BACKEND_IP
             export API_URL="http://${BACKEND_IP}:3030"
             echo "${API_URL}"
             if curl "${API_URL}/api/status" | grep "ok"
