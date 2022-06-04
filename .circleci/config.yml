@@ -267,9 +267,11 @@ jobs:
           name: Install dependencies
           command: |
             apk add --update nodejs npm
+            apk add curl
       - run:
           name: Backend smoke test.
           command: |
+            const dotenv = require('dotenv').config()
             export BACKEND_IP=$(process.env.BACKEND_IP)
             export API_URL="http://${BACKEND_IP}:3030"
             echo "${API_URL}"
