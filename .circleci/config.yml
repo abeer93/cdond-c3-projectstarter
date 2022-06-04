@@ -24,7 +24,7 @@ commands:
           command: |
             if grep -q "has been executed successfully." ~/backend/migrations_dump.txt
             then
-              cd ~/backend
+              cd ~/project/backend
               npm install
               npm run migrations:revert
             fi
@@ -203,11 +203,11 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            yum update \
+            yum update -y \
             yum install -y tar gzip \
+            curl -sL https://rpm.nodesource.com/setup_10.x | sudo bash - \
             yum install nodejs \
-            yum install npm \
-            dnf install python3 
+            yum install -y python3 
       - run:
           name: Get backend url
           command: |
@@ -236,15 +236,15 @@ jobs:
       - persist_to_workspace:
           root: ~/
           paths:
-            - ~/.circleci/ansible/inventory.txt
+            - ~/project/.circleci/ansible/inventory.txt
       - run:
           name: Install dependencies
           command: |
-            yum update \
+            yum update -y \
             yum install -y tar gzip \
+            curl -sL https://rpm.nodesource.com/setup_10.x | sudo bash - \
             yum install nodejs \
-            yum install npm \
-            dnf install python3
+            yum install -y python3 
       - run:
           name: Deploy backend
           command: |
