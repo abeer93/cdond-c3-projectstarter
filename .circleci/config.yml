@@ -208,7 +208,10 @@ jobs:
             yum update -y 
             yum install -y tar gzip 
             yum install -y python3
+            yum install epel-release
             yum install –y nodejs
+            node --version
+            yum install npm
       - run:
           name: Get backend url
           command: |
@@ -240,7 +243,10 @@ jobs:
             yum update -y
             yum install -y tar gzip
             yum install -y python3 
+            yum install epel-release
             yum install –y nodejs
+            node --version
+            yum install npm
       - run:
           name: Deploy backend
           command: |
