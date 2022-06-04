@@ -206,7 +206,7 @@ jobs:
             yum update -y \
             yum install -y tar gzip \
             yum install -y python3  \
-            dnf module install nodejs
+            yum install –y nodejs
       - run:
           name: Get backend url
           command: |
@@ -232,17 +232,13 @@ jobs:
       - add_ssh_keys:
           fingerprints:
             - "eb:12:66:bd:73:9f:7e:74:80:dd:12:2c:72:2c:fe:52"
-      - persist_to_workspace:
-          root: ~/
-          paths:
-            - project/.circleci/ansible/inventory.txt
       - run:
           name: Install dependencies
           command: |
             yum update -y \
             yum install -y tar gzip \
             yum install -y python3  \
-            dnf module install nodejs
+            yum install –y nodejs
       - run:
           name: Deploy backend
           command: |
