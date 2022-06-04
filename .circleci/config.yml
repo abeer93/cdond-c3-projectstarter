@@ -205,7 +205,7 @@ jobs:
           command: |
             yum update -y \
             yum install -y tar gzip \
-            curl -sL https://rpm.nodesource.com/setup_10.x | sudo bash - \
+            curl -sL https://rpm.nodesource.com/setup_10.x | bash - \
             yum install nodejs \
             yum install -y python3 
       - run:
@@ -242,7 +242,7 @@ jobs:
           command: |
             yum update -y \
             yum install -y tar gzip \
-            curl -sL https://rpm.nodesource.com/setup_10.x | sudo bash - \
+            curl -sL https://rpm.nodesource.com/setup_10.x | bash - \
             yum install nodejs \
             yum install -y python3 
       - run:
