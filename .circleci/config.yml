@@ -164,8 +164,6 @@ jobs:
       - add_ssh_keys:
           fingerprints:
             - "eb:12:66:bd:73:9f:7e:74:80:dd:12:2c:72:2c:fe:52"
-      - attach_workspace:
-          at: ~/
       - run:
           name: Install dependencies
           command: |
@@ -202,8 +200,6 @@ jobs:
       - image: amazon/aws-cli
     steps:
       - checkout
-      - attach_workspace:
-          at: ~/
       - run:
           name: Install dependencies
           command: |
