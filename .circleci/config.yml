@@ -24,7 +24,9 @@ commands:
           command: |
             if grep -q "has been executed successfully." ~/backend/migrations_dump.txt
             then
+              echo "inside revert migrations...."
               cd ~/project/backend
+              ls
               npm install
               npm run migrations:revert
             fi
@@ -203,9 +205,9 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            yum update -y \
-            yum install -y tar gzip \
-            yum install -y python3  \
+            yum update -y 
+            yum install -y tar gzip 
+            yum install -y python3
             yum install –y nodejs
       - run:
           name: Get backend url
@@ -235,9 +237,9 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            yum update -y \
-            yum install -y tar gzip \
-            yum install -y python3  \
+            yum update -y
+            yum install -y tar gzip
+            yum install -y python3 
             yum install –y nodejs
       - run:
           name: Deploy backend
