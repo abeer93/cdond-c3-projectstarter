@@ -225,8 +225,8 @@ jobs:
             cd frontend
             npm install
             npm run build
-            tar -czvf artifact-"f0f5110".tar.gz dist
-            aws s3 cp dist s3://udapeoplef0f5110 --recursive
+            tar -czvf artifact-"${CIRCLE_WORKFLOW_ID:0:7}".tar.gz dist
+            aws s3 cp dist s3://udapeople${CIRCLE_WORKFLOW_ID:0:7} --recursive
   
   deploy-backend:
     docker:
@@ -271,8 +271,8 @@ jobs:
       - run:
           name: Backend smoke test.
           command: |
-            env
-            echo "${API_URL}"
+            echo "BACKEND_IP= ${BACKEND_IP}"
+            echo "API_URL= ${API_URL}"
             if curl "${API_URL}/api/status" | grep "ok"
             then
                 return 0
@@ -294,6 +294,4 @@ jobs:
 workflows:
   default:
     jobs:
-      - deploy-frontend
-      - smoke-test:
-          requires: [deploy-frontend]
+      - smoke-test
