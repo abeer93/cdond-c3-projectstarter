@@ -304,7 +304,29 @@ jobs:
       - destroy-environment:
           workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
 
+  cloudfront-update:
+    docker:
+      - image: amazon/aws-cli
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: |
+            yum update -y 
+            yum install -y tar gzip 
+            yum install -y python3
+            curl -fsSL https://rpm.nodesource.com/setup_16.x | bash - && yum -y install nodejs
+            node --version
+      - run:
+          name: Update cloudfront distribution
+          command: |
+            aws cloudformation deploy \
+            --template-file .circleci/files/cloudfront.yml \
+            --stack-name InitialStack \
+            --parameter-overrides WorkflowID="udapeople-${CIRCLE_WORKFLOW_ID:0:7}" \
+            --tags project=udapeople
+
 workflows:
   default:
     jobs:
-      - smoke-test
+      - cloudfront-update
