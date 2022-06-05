@@ -225,8 +225,8 @@ jobs:
             cd frontend
             npm install
             npm run build
-            tar -czvf artifact-"${CIRCLE_WORKFLOW_ID:0:7}".tar.gz dist
-            aws s3 cp dist s3://udapeople${CIRCLE_WORKFLOW_ID:0:7} --recursive
+            tar -czvf artifact-"f0f5110".tar.gz dist
+            aws s3 cp dist s3://udapeoplef0f5110 --recursive
   
   deploy-backend:
     docker:
@@ -294,4 +294,6 @@ jobs:
 workflows:
   default:
     jobs:
-      - smoke-test
+      - deploy-frontend
+      - smoke-test:
+          requires: [deploy-frontend]
