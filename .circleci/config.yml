@@ -222,8 +222,6 @@ jobs:
             yum install -y python3
             curl -fsSL https://rpm.nodesource.com/setup_16.x | bash - && yum -y install nodejs
             node --version
-      - attach_workspace:
-          at: ~/
       - run:
           name: Get backend url
           command: |
@@ -258,6 +256,8 @@ jobs:
             node --version
       - attach_workspace:
           at: ~/
+          paths:
+            - project/.circleci/ansible/inventory.txt
       - run:
           name: Deploy backend
           command: |
