@@ -161,7 +161,9 @@ jobs:
           name: Add back-end ip to ansible inventory
           command: |
             echo "AWS list ec2 instances results -------"
-            aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress'
+            aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --output text
+            echo "--------------- list current path -----------------"
+            ls
             echo "--------------- finish -----------------"
             cd .circleci/ansible \
             aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --output text >> inventory.txt
@@ -351,13 +353,13 @@ workflows:
           requires: [build-frontend]
       - deploy-infrastructure:
           requires: [test-frontend, test-backend, scan-frontend, scan-backend]
-      - configure-infrastructure:
-          requires: [deploy-infrastructure]
-      - run-migrations:
-          requires: [configure-infrastructure]
-      - deploy-frontend:
-          requires: [run-migrations]
-      - deploy-backend:
-          requires: [run-migrations]
-      - smoke-test:
-          requires: [deploy-backend, deploy-frontend]
+      # - configure-infrastructure:
+      #     requires: [deploy-infrastructure]
+      # - run-migrations:
+      #     requires: [configure-infrastructure]
+      # - deploy-frontend:
+      #     requires: [run-migrations]
+      # - deploy-backend:
+      #     requires: [run-migrations]
+      # - smoke-test:
+      #     requires: [deploy-backend, deploy-frontend]
