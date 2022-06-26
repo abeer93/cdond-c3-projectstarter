@@ -160,12 +160,13 @@ jobs:
       - run:
           name: Add back-end ip to ansible inventory
           command: |
+            cd .circleci/ansible \
+            echo "--------------- list current path -----------------"
+            ls -a
+            echo "----------------------------------"
             echo "AWS list ec2 instances results -------"
             aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --output text
-            echo "--------------- list current path -----------------"
-            ls
-            echo "--------------- finish -----------------"
-            cd .circleci/ansible \
+            echo "----------------------------------"
             aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --output text >> inventory.txt
             echo "Contents  of the inventory.txt file is -------"
             cat inventory.txt
