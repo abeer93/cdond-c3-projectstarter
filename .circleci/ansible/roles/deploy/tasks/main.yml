@@ -1,22 +1,22 @@
 ---
 - name: "backend directory creation"
   file:
-    path: ~/backend
+    path: /ubuntu/home/backend
     state: directory
 
 - name: "extract artifact"
   unarchive:
     src: artifact.tar.gz
-    dest: ~/backend
+    dest: /ubuntu/home/backend
 
 - name: "installing node dependencies"
   shell: |
-    cd ~/backend
+    cd /ubuntu/home/backend
     npm i
 
 - name: "start node app"
   become: true
   shell: |
-    cd ~/backend/dist
+    cd /ubuntu/home/backend/dist
     pm2 stop default
     pm2 start -f main.js
