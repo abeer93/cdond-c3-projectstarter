@@ -1,35 +1,22 @@
 ---
-- name: "upgrade packages."
-  become: true
-  apt:
-    upgrade: "yes"
+- name: "backend directory creation"
+  file:
+    path: ~/backend
+    state: directory
 
-- name: "install dependencies."
-  become: true
-  apt:
-    name: ["nodejs", "npm"]
-    state: latest
-    update_cache: yes
+- name: "extract artifact"
+  unarchive:
+    src: artifact.tar.gz
+    dest: ~/backend
 
-- name: "install pm2"
-  become: true
-  npm:
-    name: pm2
-    global: yes
-    production: yes
-    state: present
+- name: "installing node dependencies"
+  shell: |
+    cd ~/backend
+    npm i
 
-- name: npm install
+- name: "start node app"
   become: true
-  command: 'npm install'
-  become_user: root
-
-- name: pm2 stop default
-  become: true
-  command: 'pm2 stop default'
-  become_user: root
-
-- name: pm2 start npm -- start
-  become: true
-  command: 'pm2 start npm -- start'
-  become_user: root
+  shell: |
+    cd ~/backend/dist
+    pm2 stop default
+    pm2 start -f main.js
