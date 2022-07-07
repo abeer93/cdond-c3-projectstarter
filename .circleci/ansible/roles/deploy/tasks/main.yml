@@ -9,10 +9,12 @@
     src: artifact.tar.gz
     dest: /ubuntu/home/backend
 
-- name: "installing node dependencies"
-  shell: |
-    cd /ubuntu/home/backend
-    npm i
+- name: "install npm"
+  become: true
+  apt:
+    name: npm
+    state: latest
+    update_cache: yes
 
 - name: "start node app"
   become: true
