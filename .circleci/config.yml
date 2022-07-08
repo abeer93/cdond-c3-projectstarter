@@ -291,17 +291,15 @@ jobs:
   
   smoke-test:
     docker:
-      - image: cimg/base:stable
+      - image: alpine:latest
     steps:
       - checkout
       - run:
           name: Install dependencies
           command: |
-            curl -fsSL https://deb.nodesource.com/setup_13.x | sudo -E bash -
-            sudo apt -y install nodej
-            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-            unzip awscliv2.zip
-            sudo ./aws/install
+            apk add --update curl
+            apk add --update nodejs npm
+            pip install awscli
       - run:
           name: Backend smoke test.
           command: |
