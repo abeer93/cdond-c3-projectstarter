@@ -336,18 +336,22 @@ jobs:
             yum update -y 
             yum install -y tar gzip 
             yum install -y python3
-            curl -fsSL https://rpm.nodesource.com/setup_16.x | bash - && yum -y install nodejs
-            node --version
+            curl -fsSL https://deb.nodesource.com/setup_13.x | sudo -E bash -
+            sudo apt -y install nodejs
       - run:
           name: Update cloudfront distribution
           command: |
             aws cloudformation deploy \
             --template-file .circleci/files/cloudfront.yml \
             --stack-name InitialStack \
-            --parameter-overrides WorkflowID="udapeople-${CIRCLE_WORKFLOW_ID:0:7}" \
+            --parameter-overrides WorkflowID="udapeople-92a1471" \
             --tags project=udapeople
+      - destroy-environment:
+          workflow_id: "92a1471"
+      - revert-migrations:
+          workflow_id: "92a1471" 
 
 workflows:
   default:
     jobs:
-      - smoke-test
+      - cloudfront-update
