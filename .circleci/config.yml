@@ -178,17 +178,13 @@ jobs:
           fingerprints:
             - "a7:de:39:fa:99:2b:66:d7:fc:bb:86:10:03:82:a6:ed"
       - run:
-        name: Install dependencies
-        command: |
-          apk add --update tar
-          apk add --update gzip
-          apk add --update ansible nodejs npm
-          apk add --update openssh-client
-          pip install awscli --upgrade 
-      - persist_to_workspace:
-        root: ~/
-        paths:
-          - project/.circleci/ansible/inventory.txt
+          name: Install dependencies
+          command: |
+            apk add --update tar
+            apk add --update gzip
+            apk add --update ansible nodejs npm
+            apk add --update openssh-client
+            pip install awscli --upgrade
       - attach_workspace:
           at: ~/
       - run:
