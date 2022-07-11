@@ -38,7 +38,7 @@ commands:
               cd ~/project/backend
               npm install
               npm run migrations:revert
-            fi
+            fi '
             
 jobs:
   build-frontend:
@@ -278,7 +278,6 @@ jobs:
             npm run build
             cd ..
             tar -C backend -czvf artifact.tar.gz .
-            cp artifact.tar.gz .circleci/ansible/roles/deploy/files
             cd .circleci/ansible
             echo "Contents  of the inventory.txt file is -------"
             cat inventory.txt

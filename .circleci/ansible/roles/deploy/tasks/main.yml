@@ -1,3 +1,9 @@
+---
+- name: "backend directory creation"
+  file:
+    path: /home/ubuntu/app
+    state: directory
+
 - name: "extract artifact"
   unarchive:
     src: ~/project/artifact.tar.gz
