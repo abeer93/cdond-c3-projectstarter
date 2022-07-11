@@ -1,24 +1,13 @@
----
-- name: "backend directory creation"
-  file:
-    path: /ubuntu/home/backend
-    state: directory
-
 - name: "extract artifact"
   unarchive:
-    src: artifact.tar.gz
-    dest: /ubuntu/home/backend
+    src: ~/project/artifact.tar.gz
+    dest: /home/ubuntu/app
 
-- name: "install npm"
-  become: true
-  apt:
-    name: npm
-    state: latest
-    update_cache: yes
-
-- name: "start node app"
-  become: true
+- name: Executing node
   shell: |
-    cd /ubuntu/home/backend/dist
+    cd /home/ubuntu
+    chown -R ubuntu:ubuntu *
+    chown -R ubuntu:ubuntu .*
+    cd app
     pm2 stop default
-    pm2 start -f main.js
+    pm2 start npm -- start
