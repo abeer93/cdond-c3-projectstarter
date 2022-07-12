@@ -41,7 +41,8 @@ commands:
               npm run migrations:revert
             else
               echo "no migration exist to revert........."
-            fi'
+            fi 
+            '
             
 jobs:
   build-frontend:
