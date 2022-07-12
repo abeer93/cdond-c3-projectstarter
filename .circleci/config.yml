@@ -400,12 +400,10 @@ workflows:
       - configure-infrastructure:
           requires: [deploy-infrastructure]
       - deploy-frontend:
-          requires: [deploy-infrastructure]
+          requires: [configure-infrastructure]
       - deploy-backend:
-          requires: [deploy-infrastructure]
+          requires: [configure-infrastructure]
       - smoke-test:
           requires: [deploy-backend, deploy-frontend]
       - cloudfront-update:
           requires: [smoke-test]
-      - cleanup:
-          requires: [cloudfront-update]
