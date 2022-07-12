@@ -196,34 +196,6 @@ jobs:
       - destroy-environment:
           workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"
 
-  run-migrationssss:
-    docker:
-      - image: circleci/node:13.8.0
-    steps:
-      - checkout
-      - restore_cache:
-          keys: [backend-build]
-      - run:
-          name: Run migrations
-          command: |
-            cd backend
-            npm i
-            ls 
-            echo "start running migrations.........."
-            npm run migrations > migrations_dump.txt
-            echo "finish running migrations.........."
-      - run:
-          name: Send migration results to kvdb.io
-          command: |
-            if grep -q "has been executed successfully." ~/project/backend/migrations_dump.txt
-            then
-              echo "inside success migration ................"
-              curl -d "1" https://kvdb.io/V8FY4GxC6QnSfXaJBQLozU/migration_${CIRCLE_WORKFLOW_ID:0:7}
-            else
-              echo "can not run migration ................"
-              return 1
-            fi
-
   run-migrations:
     docker:
       - image: circleci/node:13.8.0
@@ -232,19 +204,16 @@ jobs:
       - run:
           name: Run migrations
           command: |
-            printenv
             cd backend
             npm install
-            echo "start running migrations.........."
             npm run migrations > migrations_dump.txt
-              echo "finish running migrations.........."
       - run:
           name: Send migration results to memstash
           command: |   
             if grep -q "has been executed successfully." ~/project/backend/migrations_dump.txt
             then
-              echo "MIGRATED"
-              curl -k https://kvdb.io/UY8HEmETno9p44hJPWTd6y/migration_f0f21d4  -d '1'
+              echo "inside success migration ................"
+              curl -d "1" https://kvdb.io/UY8HEmETno9p44hJPWTd6y/migration_${CIRCLE_WORKFLOW_ID:0:7}
             else
               echo "can not run migration ................"
               return 1
@@ -425,7 +394,11 @@ jobs:
 workflows:
   default:
     jobs:
-      - run-migrations
+      - deploy-infrastructure
+      - configure-infrastructure:
+          requires: [deploy-infrastructure]
+      - run-migrations:
+          requires: [configure-infrastructure]
       - deploy-frontend:
           requires: [run-migrations]
       - deploy-backend:
