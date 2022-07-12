@@ -31,15 +31,15 @@ commands:
           name: Revert migrations
           when: on_fail
           command: |
-            bash -c 'SUCCESS=$(curl --insecure "https://kvdb.io/V8FY4GxC6QnSfXaJBQLozU/migration_<< parameters.workflow_id >>")
-            echo "success = "
+            SUCCESS=$(curl --insecure "https://kvdb.io/V8FY4GxC6QnSfXaJBQLozU/migration_<< parameters.workflow_id >>")
+            echo "success = $SUCCESS"
             if (( $SUCCESS == 1 ));
             then
               echo "inside revert migrations...."
               cd ~/project/backend
               npm install
               npm run migrations:revert
-            fi '
+            fi
             
 jobs:
   build-frontend:
