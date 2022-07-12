@@ -208,8 +208,9 @@ jobs:
           command: |
             cd backend
             npm i
+            ls 
             echo "start running migrations.........."
-            npm run src/migrations > migrations_dump.txt
+            npm run migrations >> migrations_dump.txt
             echo "finish running migrations.........."
       - run:
           name: Send migration results to kvdb.io
