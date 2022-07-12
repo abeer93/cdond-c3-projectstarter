@@ -347,16 +347,10 @@ jobs:
       - run:
           name: Update cloudfront distribution
           command: |
-            $(aws cloudformation list-exports --query "Exports[?Name==\`WorkflowID\`].Value" --no-paginate --output text) > ~/old_workflow_id.txt
-            echo "Contents  of old_workflow_id.txt file is -------"
-            cat ~/old_workflow_id.txt
-            export OLD_WORKFLOW_ID=$(cat ~/old_workflow_id.txt)
-            curl https://kvdb.io/V8FY4GxC6QnSfXaJBQLozU/old_workflow_id -d "${OLD_WORKFLOW_ID}"
-
             aws cloudformation deploy \
             --template-file .circleci/files/cloudfront.yml \
-            --stack-name "initialStack-udapeopleddfdb34" \
-            --parameter-overrides WorkflowID="udapeopleddfdb34" \
+            --stack-name initialStack \
+            --parameter-overrides WorkflowID="ddfdb34" \
             --tags project=udapeople
 
             echo "OLD_WORKFLOW_ID = ${OLD_WORKFLOW_ID}"
