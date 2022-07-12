@@ -338,33 +338,26 @@ jobs:
           command: |
             yum update -y 
             yum install -y tar gzip 
-            yum install -y python3
+            yum install -y gcc-c++ make
             curl -fsSL https://rpm.nodesource.com/setup_16.x | bash - && yum -y install nodejs
             node --version
       - run:
           name: Update cloudfront distribution
           command: |
-            export OldWorkflowID=$(aws cloudformation list-exports --query "Exports[?Name==\`WorkflowID\`].Value" --no-paginate --output text)
-            echo "OldWorkflowID: ${OldWorkflowID}"
-            curl https://kvdb.io/V8FY4GxC6QnSfXaJBQLozU/old_workflow_id -d "${OldWorkflowID}"
-
-            $(aws cloudformation list-exports --query "Exports[?Name==\`WorkflowID\`].Value" --no-paginate --output text) >> ~/project/.circleci/old_workflow_id.txt
+            $(aws cloudformation list-exports --query "Exports[?Name==\`WorkflowID\`].Value" --no-paginate --output text) > ~/old_workflow_id.txt
             echo "Contents  of old_workflow_id.txt file is -------"
-            cat ~/project/.circleci/old_workflow_id.txt
-            export OLD_WORKFLOW_ID=$(cat ~/project/.circleci/old_workflow_id.txt)
+            cat ~/old_workflow_id.txt
+            export OLD_WORKFLOW_ID=$(aws cloudformation list-exports --query "Exports[?Name==\`WorkflowID\`].Value" --no-paginate --output text)
+            export OLD_WORKFLOW_ID2=$(cat ~/old_workflow_id.txt)
             echo "OLD_WORKFLOW_ID = ${OLD_WORKFLOW_ID}"
 
             aws cloudformation deploy \
             --template-file .circleci/files/cloudfront.yml \
-            --stack-name "initialStack-${OLD_WORKFLOW_ID}" \
-            --parameter-overrides WorkflowID="udapeople-${CIRCLE_WORKFLOW_ID:0:7}" \
+            --stack-name "initialStack-${OLD_WORKFLOW_ID2}" \
+            --parameter-overrides WorkflowID="udapeople-${OLD_WORKFLOW_ID2}" \
             --tags project=udapeople
 
             echo "Current Workflow Id = ${CIRCLE_WORKFLOW_ID:0:7}"
-      - revert-migrations:
-          workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
-      - destroy-environment:
-          workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
   
   cleanup:
     docker:
@@ -376,7 +369,7 @@ jobs:
           command: |
             yum update -y 
             yum install -y tar gzip 
-            yum install -y python3
+            yum install -y gcc-c++ make
             curl -fsSL https://rpm.nodesource.com/setup_16.x | bash - && yum -y install nodejs
             node --version
       - attach_workspace:
@@ -384,7 +377,7 @@ jobs:
       - run:
           name: Get old stack workflow id
           command: |
-            export OldWorkflow=$(cat ~/project/.circleci/old_workflow_id.txt)
+            export OldWorkflow=$(cat ~/old_workflow_id.txt)
             export OldWorkflowID=${OldWorkflow#"udapeople-"}
             echo ${OldWorkflowID}
 
@@ -401,29 +394,6 @@ jobs:
 workflows:
   default:
     jobs:
-      - build-frontend
-      - build-backend
-      - test-frontend:
-          requires: [build-frontend]
-      - test-backend:
-          requires: [build-backend]
-      - scan-backend:
-          requires: [build-backend]
-      - scan-frontend:
-          requires: [build-frontend]
-      - deploy-infrastructure:
-          requires: [test-frontend, test-backend, scan-frontend, scan-backend]
-      - configure-infrastructure:
-          requires: [deploy-infrastructure]
-      - run-migrations:
-          requires: [configure-infrastructure]
-      - deploy-frontend:
-          requires: [run-migrations]
-      - deploy-backend:
-          requires: [run-migrations]
-      - smoke-test:
-          requires: [deploy-backend, deploy-frontend]
-      - cloudfront-update:
-          requires: [smoke-test]
+      - cloudfront-update
       - cleanup:
           requires: [cloudfront-update]
