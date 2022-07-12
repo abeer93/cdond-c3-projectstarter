@@ -207,8 +207,10 @@ jobs:
           name: Run migrations
           command: |
             cd backend
-            npm install
+            npm i
+            echo "start running migrations.........."
             npm run migrations > migrations_dump.txt
+            echo "finish running migrations.........."
       - run:
           name: Send migration results to kvdb.io
           command: |
@@ -216,6 +218,9 @@ jobs:
             then
               echo "inside success migration ................"
               curl -d "1" https://kvdb.io/V8FY4GxC6QnSfXaJBQLozU/migration_${CIRCLE_WORKFLOW_ID:0:7}
+            else
+              echo "can not run migration ................"
+              return 1
             fi
   
   deploy-frontend:
