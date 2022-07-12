@@ -33,7 +33,7 @@ commands:
           command: |
             SUCCESS=$(curl --insecure "https://kvdb.io/V8FY4GxC6QnSfXaJBQLozU/migration_<< parameters.workflow_id >>")
             echo "success = $SUCCESS"
-            if (( $SUCCESS == 1 ));
+            if $SUCCESS==1
             then
               echo "inside revert migrations...."
               cd ~/project/backend
@@ -294,7 +294,6 @@ jobs:
       - image: python:3.9-alpine3.16
     steps:
       - checkout
-      - run: sleep 60;
       - run:
           name: Install dependencies
           command: |
