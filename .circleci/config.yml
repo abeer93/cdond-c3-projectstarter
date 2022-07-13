@@ -388,7 +388,6 @@ jobs:
 workflows:
   default:
     jobs:
-      - cloudfront-update
       - deploy-infrastructure
       - configure-infrastructure:
           requires: [deploy-infrastructure]
