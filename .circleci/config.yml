@@ -349,12 +349,9 @@ jobs:
           command: |
             aws cloudformation deploy \
             --template-file .circleci/files/cloudfront.yml \
-            --stack-name initialStack \
-            --parameter-overrides WorkflowID="939be21" \
+            --stack-name initialStack-f4dffa0 \
+            --parameter-overrides WorkflowID="f4dffa0" \
             --tags project=udapeople
-
-            echo "OLD_WORKFLOW_ID = ${OLD_WORKFLOW_ID}"
-            echo "Current Workflow Id = ${CIRCLE_WORKFLOW_ID:0:7}"
   
   cleanup:
     docker:
@@ -391,14 +388,4 @@ jobs:
 workflows:
   default:
     jobs:
-      - deploy-infrastructure
-      - configure-infrastructure:
-          requires: [deploy-infrastructure]
-      - deploy-frontend:
-          requires: [configure-infrastructure]
-      - deploy-backend:
-          requires: [configure-infrastructure]
-      - smoke-test:
-          requires: [deploy-backend, deploy-frontend]
-      - cloudfront-update:
-          requires: [smoke-test]
+      - cloudfront-update
