@@ -349,8 +349,8 @@ jobs:
           command: |
             aws cloudformation deploy \
             --template-file .circleci/files/cloudfront.yml \
-            --stack-name initialStack-bc9e761 \
-            --parameter-overrides WorkflowID="bc9e761" \
+            --stack-name initialStack-9dcda04 \
+            --parameter-overrides WorkflowID="9dcda04" \
             --tags project=udapeople
   
   cleanup:
@@ -388,12 +388,4 @@ jobs:
 workflows:
   default:
     jobs:
-      - deploy-infrastructure
-      - configure-infrastructure:
-          requires: [deploy-infrastructure]
-      - deploy-frontend:
-          requires: [configure-infrastructure]
-      - deploy-backend:
-          requires: [configure-infrastructure]
-      - smoke-test:
-          requires: [deploy-backend, deploy-frontend]
+      - cloudfront-update
